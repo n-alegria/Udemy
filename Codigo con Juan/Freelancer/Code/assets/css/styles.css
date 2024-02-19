@@ -1,0 +1,277 @@
+:root{
+    --main-color: #00b341;
+    --blanco: #ffffff;
+    --gris: #757575;
+    --grisClaro: #DFE9F3;
+    --oscuro: #212121;
+    --primario: #FFC107;
+    --secundario: #0097A7;
+    --fuente-principal: 3.8rem;
+}
+*,
+::after,
+::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 62.5%;
+    scroll-snap-type: y mandatory;
+}
+
+body{
+    font-size: 16px;
+    font-family: "Krub", sans-serif;
+    background-image: linear-gradient(to top, var(--grisClaro) 0%, var(--blanco) 100%);
+}
+
+h1{
+    font-size: 3.8rem;
+}
+
+h2{
+    font-size: 2.8rem;
+}
+
+h3{
+    font-style: 1.8rem;
+}
+
+:is(h1, h2, h3){
+    text-align: center;
+}
+
+.shadow{
+    -webkit-box-shadow: 0px 5px 15px 0px rgba(112, 112, 112, 0.54);
+    -moz-box-shadow: 0px 5px 15px 0px rgba(112, 112, 112, 0.54);
+    box-shadow: 0px 5px 15px 0px rgba(112, 112, 112, 0.54);
+    background-color: var(--blanco);
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+
+.header{
+    height: 20vh;
+    position: relative;
+    z-index: 1;
+}
+
+.title{
+    margin: 0;
+    padding: 2rem;
+}
+
+.title span{
+    font-size: 2rem;
+}
+
+.container{
+    max-width: 120rem;
+    margin: 0 auto;
+}
+
+.btn{
+    background-color: var(--secundario);
+    color: var(--blanco);
+    text-decoration: none;
+    padding: 1rem 3rem;
+    margin-top: 5rem;
+    font-size: 2rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: .5rem;
+    width: 90%;
+    text-align: center;
+    border: none;
+}
+
+.btn:hover{
+    background-color: var(--main-color);
+    color: var(--oscuro);
+    cursor: pointer;
+}
+
+.nav-bg{
+    background-color: var(--secundario);
+}
+
+.main-nav{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.main-nav a{
+    color: var(--blanco);
+    text-decoration: none;
+    padding: 1rem;
+    font-size: 2rem;
+    text-align: center;
+    width: 100%;
+    font-weight: 700;
+}
+
+.main-nav a:hover{
+    background-color: var(--main-color);
+    color: var(--oscuro);
+}
+
+.hero{
+    background-image: url(../images/hero.jpg);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 80vh;
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.container-hero{
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+    /* top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-hero :is(h2, p){
+    color: var(--blanco);
+}
+
+.service{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 3rem;
+}
+
+.service h3{
+    color: var(--secundario);
+}
+
+.service p{
+    line-height: 2;
+}
+
+.service .icons{
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    background-color: var(--main-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form{
+    background-color: var(--gris);
+    width: min( 80rem, 100% ); /* Utiliza el valor mas pequeño */
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.form fieldset{
+    border: none;
+}
+
+.form legend{
+    text-align: center;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--primario);
+}
+
+.campo{
+    margin-bottom: 1rem;
+}
+
+.container-input label{
+    color: var(--blanco);
+    font-weight: bold;
+    color: var(--blanco);
+    display: block;
+}
+
+.input-text{
+    width: 100%;
+    border: none;
+    padding: 1.5rem;
+    border-radius: .5rem;
+}
+
+.submit .btn{
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+.campo label{
+    padding: .5rem;
+}
+
+.campo textarea{
+    height: 20rem;
+}
+
+.footer{
+    text-align: center;
+    padding: 1rem;
+    font-weight: bold;
+}
+
+
+.services,
+.main-nav,
+.form{
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+}
+
+
+@media (min-width: 768px) {
+    .main-nav{
+        flex-direction: row;
+    }
+
+    .btn{
+        width: auto;
+    }
+
+    .services{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+    .submit .btn{
+        width: auto;
+        display: inline;
+    }
+    .container-input{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto auto 20rem;
+        column-gap: 1rem;
+    }
+
+    .campo:nth-child(3){
+        grid-column: 1 / 3;
+    }
+
+    .campo:nth-child(4){
+        grid-column: 1 / 3;
+    }
+}
