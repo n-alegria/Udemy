@@ -1,0 +1,34 @@
+@use 'variables' as v;
+
+// Mixin parametrizable
+// puede tomar valores por default
+// @mixin heading($color: blue, $border-radius: false){
+//     text-transform: uppercase;
+//     font-size: 2.4rem;
+//     color: $color;
+//     letter-spacing: 1px;
+//     background-color: black;
+
+//     // Condicional
+//     @if $border-radius{
+//         $border-radius: 1rem;
+//     }
+// }
+
+@mixin mediaQuery($ancho){
+    @media (min-width: $ancho) {
+        @content;
+    }
+}
+
+@mixin grid($columnas, $espaciado){
+    display: grid;
+    grid-template-columns: repeat($columnas, 1fr);
+    gap: $espaciado;   
+}
+
+@mixin resetear-lista{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
