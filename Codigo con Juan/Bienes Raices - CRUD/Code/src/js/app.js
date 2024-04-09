@@ -20,13 +20,13 @@ function navegacionResponsive(){
 }
 
 function darkMode(){
-    const prefiereDarkMode = window.matchMedia('(prefers-color-scheme: dark');
-    if(prefiereDarkMode.matches){
-        document.body.classList.add('dark-mode');
-    }
-    else{
-        document.body.classList.remove('dark-mode');
-    }
+    // const prefiereDarkMode = window.matchMedia('(prefers-color-scheme: dark');
+    // if(prefiereDarkMode.matches){
+    //     document.body.classList.add('dark-mode');
+    // }
+    // else{
+    //     document.body.classList.remove('dark-mode');
+    // }
 
     prefiereDarkMode.addEventListener('change', () =>{
         if(prefiereDarkMode.matches){
