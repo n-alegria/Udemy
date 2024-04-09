@@ -1,4 +1,8 @@
 <?php
+
+    require('../includes/funciones.php');
+    estaAutenticado();
+    
     $mensaje = $_GET['mensaje'] ?? null;
     
     require '../includes/config/database.php';
@@ -32,7 +36,6 @@
 
     }
 
-    require('../includes/funciones.php');
     incluirTemplate('header');
 ?>
 

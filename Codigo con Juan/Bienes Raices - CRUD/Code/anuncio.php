@@ -1,34 +1,47 @@
 <?php
+
+    $id = filter_var($_GET["id"], FILTER_VALIDATE_INT);
+    if(!$id){
+        header("location: /BienesRaices/Code/");
+    }
+
+    require("./includes/config/database.php");
+    $db = conectarDB();
+
+    // Query
+    $query = "SELECT * FROM propiedades WHERE id = {$id}";
+
+    // Consulta
+    $resultado = mysqli_query($db, $query);
+
+    // Obtengo la propiedad
+    $propiedad = mysqli_fetch_assoc($resultado);
+
     require('includes/funciones.php');
     incluirTemplate('header');
 ?>
 
     <main class="contenedor seccion contenido-centrado">
-        <h1>Casa en venta frente al bosque</h1>
-        <picture>
-            <source srcset="build/img/destacada.webp" type="image/webp">
-            <source srcset="build/img/destacada.jpg" type="image/jpeg">
-            <img loading="lazy" src="build/img/destacada.jpg" alt="">
-        </picture>
-
+        <h1><?php echo $propiedad['titulo']; ?></h1>
+        <img loading="lazy" src="./imagenes/<?php echo $propiedad['imagen'];?>" alt="<?php echo $propiedad['titulo'];?>">
+        
         <div class="resumen-propiedad">
-            <p class="precio">$3.000.000</p>
+            <p class="precio">$<?php echo $propiedad['precio'];?></p>
             <ul class="iconos-caracteristicas">
                 <li>
                     <img loading="lazy" src="build/img/icono_wc.svg" alt="Icono wc">
-                    <p>3</p>
+                    <p><?php echo $propiedad['wc'];?></p>
                 </li>
                 <li>
                     <img loading="lazy" src="build/img/icono_estacionamiento.svg" alt="Icono estacioamiento">
-                    <p>2</p>
+                    <p><?php echo $propiedad['estacionamiento'];?></p>
                 </li>
                 <li>
                     <img loading="lazy" src="build/img/icono_dormitorio.svg" alt="Icono dormitorio">
-                    <p>4</p>
+                    <p><?php echo $propiedad['habitaciones'];?></p>
                 </li>
             </ul>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora, dolorem. Minima voluptas praesentium nam, corrupti labore a nemo ut pariatur, libero laudantium officiis cupiditate nesciunt? Amet laborum soluta illo maiores!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid dolore numquam fugiat dolor ea commodi facere ducimus deleniti. Voluptate at tempora laudantium consequuntur eius repellendus ea itaque reiciendis quos facere!</p>
+            <p><?php echo $propiedad['descripcion'];?></p>
         </div>
     </main>
 

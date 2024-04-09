@@ -1,4 +1,8 @@
 <?php
+
+    require('../../includes/funciones.php');
+    estaAutenticado();
+    
     $id = $_GET['id'] ?? null;
     $id = filter_var($id, FILTER_VALIDATE_INT);
 
@@ -110,7 +114,6 @@
         }
     }
 
-    require('../../includes/funciones.php');
     incluirTemplate('header');
 ?>
 

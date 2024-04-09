@@ -16,7 +16,7 @@
 ?>
 
 <?php if($resultadoPropiedades->num_rows === 0): ?>
-    <div class="contenido-centrado">
+    <div class="w-100">
     <p class="alerta vacio">No hay anuncios disponibles</p>
 <?php else: ?>
     <div class="contenedor-anuncios">

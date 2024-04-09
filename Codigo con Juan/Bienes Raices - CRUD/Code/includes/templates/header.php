@@ -1,3 +1,10 @@
+<?php
+    if(!isset($_SESSION)){
+        session_start();
+    }
+    $login = $_SESSION["login"] ?? null;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,10 +26,16 @@
                 <div class="derecha">
                     <img class="boton-dark-mode" src="/BienesRaices/Code/build/img/dark-mode.svg" alt="Dark Mode">
                     <nav class="navegacion">
-                        <a href="nosotros.php">Nosotros</a>
-                        <a href="anuncios.php">Anuncios</a>
-                        <a href="blog.php">Blog</a>
-                        <a href="contacto.php">Contacto</a>
+                        <a href="/BienesRaices/Code/nosotros.php">Nosotros</a>
+                        <a href="/BienesRaices/Code/anuncios.php">Anuncios</a>
+                        <a href="/BienesRaices/Code/blog.php">Blog</a>
+                        <a href="/BienesRaices/Code/contacto.php">Contacto</a>
+                        <?php if($login): ?>
+                            <a href="/BienesRaices/Code/cerrar.php">Cerrar Session</a>
+                        <?php else: ?>
+                            <a href="/BienesRaices/Code/login.php">Login</a>
+                        <?php endif; ?>
+                        
                     </nav>
                 </div>
             </div> <!-- .barra -->

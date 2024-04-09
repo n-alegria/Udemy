@@ -1,4 +1,9 @@
 <?php
+    session_start();
+    if(isset($_SESSION["login"])){
+        header("location: /BienesRaices/Code/admin/");
+    }
+
     // Importar la conexion
     require('includes/config/database.php');
     $db = conectarDB();
@@ -31,8 +36,7 @@
                 $auth = password_verify($password, $usuario["password"]);
                 if($auth){
                     // Las credenciales son correctas
-                    session_start();
-
+                    
                     // Llenar el arreglo de la sesion
                     $_SESSION["usuario"] = $usuario["email"];
                     $_SESSION["login"] = true;
