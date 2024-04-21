@@ -1,0 +1,19 @@
+{
+    "name": "lautaro/code",
+    "description": "Creando un proyecto con POO",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Nestor",
+            "email": "n.alegria@outlook.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\" : "./classes"
+        }
+    },
+    "require": {
+        "intervention/image": "^2.7"
+    }
+}
