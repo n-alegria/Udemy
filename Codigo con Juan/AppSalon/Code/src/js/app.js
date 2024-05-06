@@ -26,6 +26,18 @@ function iniciarApp(){
 
     // Consulta la API en el backend de PHP
     consultarAPI();
+
+    // Obtiene el nombre del cliente desde el form y lo almacena en la cita
+    nombreCliente();
+
+    // Almacena la fecha de la cita en el objeto
+    seleccionarFecha();
+
+    // Almacena la hora de la cita en el objeto
+    seleccionaHora();
+
+    // Muestra la informacion de la cita
+    mostrarResumen();
 }
 
 function mostrarSeccion(){
@@ -73,6 +85,7 @@ function botonesPaginador(){
     }else if(paso === 3){
         paginaAnterior.classList.remove("ocultar");
         paginaSiguiente.classList.add("ocultar");
+        mostrarResumen();
     }else{
         paginaAnterior.classList.remove("ocultar");
         paginaSiguiente.classList.remove("ocultar");
@@ -97,6 +110,7 @@ function paginaSiguiente(){
     });
 }
 
+// async - await
 async function consultarAPI(){
     try {
         const url = "http://localhost:3000/api/servicios";
@@ -128,6 +142,7 @@ function mostrarServicios(servicios){
         servicioDiv.dataset.idServicio = id;
         // Le agredo un evento mediante callback ya que requiero pasarle un objeto
         servicioDiv.onclick = function(){
+            // servicio -> objeto con los datos del servicio (nombre y precio)
             seleccionarServicio(servicio);
         } 
 
@@ -141,5 +156,184 @@ function mostrarServicios(servicios){
 }
 
 function seleccionarServicio(servicio){
-    
+    // Extraigo el id del servicio
+    const { id } = servicio;
+    // Extraigo el arreglo de servicios del objeto 'cita'
+    const { servicios } = cita;
+
+    // Selecciono el div con el servicio igual al id seleccionado y le agrego la clase de seleccionado
+    const divServicio = document.querySelector(`[data-id-servicio="${id}"]`);
+
+    // Comprobar si un servicio fue agregado o quitarlo
+    // .some() itera el arreglo y retorna true o false si existe el elemento en el arreglo
+    if( servicios.some( agregado => agregado.id === id) ){
+        // Eliminarlo
+        // .filter() itera el arreglo y retorna los elementos segun la condicion, en este caso retorna los elementos cuyo id no este en el listado de servicios
+        cita.servicios = servicios.filter( agregado => agregado.id !== id);
+        divServicio.classList.remove("seleccionado");
+    }else{
+        // Agrego el nuevo servicio usando 'spread operator' mas la nueva cita obtenida por el click
+        cita.servicios = [...servicios, servicio];
+        divServicio.classList.add("seleccionado");
+    }
+
+}
+
+function nombreCliente(){
+    const nombre = document.querySelector("#nombre").value;
+    // .trim() elimina espacios vacios antes y despues del string
+    cita.nombre = nombre.trim();
+}
+
+function seleccionarFecha(){
+    // Seleciono el input fecha
+    const inputFecha = document.querySelector("#fecha");
+    // Agrego un eventListener con el evento "input", cuando agrega la fecha la obtengo de lo contrario tendria un string vacio
+    inputFecha.addEventListener("input", function(e) {
+        // .getUTFCDay() obtiene el dia de la semana (numero) siendo domingo = 0
+        const dia = new Date(e.target.value).getUTCDay();
+        // .includes() me permite saber si un elemento esta dentro de un arreglo
+        if( [6, 0].includes(dia) ){
+            e.target.value = "";
+            mostrarAlerta("Fines de semana no permitidos", "error", ".formulario");
+        }else{
+            cita.fecha = e.target.value;
+        }
+    });
+}
+
+
+function seleccionaHora(){
+    const inputHora = document.querySelector("#hora");
+    inputHora.addEventListener("input", function(e) {
+        const horaCita = e.target.value;
+        // .split() me permite separar una cadena mediante un delimitador
+        const hora = horaCita.split(":")[0];
+        if( hora < 10 || hora > 18){
+            mostrarAlerta("Hora no valida", "error", ".formulario");
+        }else{
+            cita.hora = e.target.value;
+        }
+    });
+}
+
+function mostrarAlerta(mensaje, tipo, elemento, desaparece = true){
+    const alertaPrevia = document.querySelector(".alerta");
+    // Si existe una alerta previa elimina el mensaje previo
+    if(alertaPrevia){
+        alertaPrevia.remove();
+    }
+
+    const alerta = document.createElement("DIV");
+    alerta.textContent = mensaje;
+    alerta.classList.add("alerta");
+    alerta.classList.add(tipo);
+
+    const referencia = document.querySelector(elemento);
+    referencia.appendChild(alerta);
+
+    if(desaparece){
+        setTimeout(() => {
+            alerta.remove();
+        }, 4000);
+    }
+}
+
+function mostrarResumen(){
+    const resumen = document.querySelector(".contenido-resumen");
+    // Formatear el div de resumen
+    const { nombre, fecha, hora, servicios } = cita;
+
+    // Limpiar el contenido del resumen, mientras existan elementos en el resumen, lo elimina
+    while(resumen.firstChild){
+        resumen.removeChild(resumen.firstChild);
+    }
+
+    // Object.values( objeto ) devuelve los valores de un objeto
+    // Comprubo que no tenga string vacios
+    if(Object.values(cita).includes("") || cita.servicios.length === 0){
+        mostrarAlerta("Faltan datos de Servicios, Fecha u hora", "error", ".contenido-resumen", false);
+        return;
+    }
+
+    // Heading para servicios en resumen
+    const headingServicios = document.createElement("H3");
+    headingServicios.textContent = "Resumen de Servicios";
+    resumen.appendChild(headingServicios);
+
+    // Iterando y mostrando los servicios
+    servicios.forEach( (servicio) => {
+        const { id, precio, nombre } = servicio;
+        const contenedorServicio = document.createElement("DIV");
+        
+        contenedorServicio.classList.add("contenedor-servicios");
+        
+        const nombreServicio = document.createElement("P");
+        nombreServicio.textContent = nombre;
+
+        const precioServicio = document.createElement("P");
+        precioServicio.innerHTML = `<span>Precio:</span> $${precio}`;
+
+        contenedorServicio.appendChild(nombreServicio);
+        contenedorServicio.appendChild(precioServicio);
+
+        resumen.appendChild(contenedorServicio);
+    });
+
+    // Heading para resumen de cita
+    const headingCita = document.createElement("H3");
+    headingCita.textContent = "Resumen de Cita";
+    resumen.appendChild(headingCita);
+
+    const nombreCliente = document.createElement("P");
+    nombreCliente.innerHTML = `<span>Nombre:</span> ${nombre}`;
+
+    // Formatear la fecha en español
+    const fechaObj = new Date(fecha);
+    const mes = fechaObj.getMonth();
+    const dia = fechaObj.getDate() + 2;
+    const year = fechaObj.getFullYear();
+
+    const fechaUTC = new Date( Date.UTC(year, mes, dia) );
+
+    const opciones = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
+    const fechaFormateada = fechaUTC.toLocaleDateString("es-AR", opciones);
+    console.log(fechaFormateada);
+
+    const fechaCita = document.createElement("P");
+    fechaCita.innerHTML = `<span>Fecha:</span> ${fechaFormateada}`;
+
+
+    const horaCita = document.createElement("P");
+    horaCita.innerHTML = `<span>Hora:</span> ${hora} horas`;
+
+    // Boton para crear una cita
+    const botonReservar = document.createElement("BUTTON");
+    botonReservar.classList.add("boton");  
+    botonReservar.textContent = "Reservar Cita";
+    botonReservar.onclick = reservarCita;
+
+    resumen.appendChild(nombreCliente);
+    resumen.appendChild(fechaCita);
+    resumen.appendChild(horaCita);
+
+    resumen.append(botonReservar);
+}
+
+async function reservarCita(){
+    const datos = new FormData();
+
+    datos.append("nombre", "lautaro");
+
+    // Peticion hacia la api
+    const url = "http://localhost:3000/api/citas";
+    const opciones = {
+        method: "POST",
+        body: datos
+    }
+
+    const respuesta = await fetch(url, opciones);
+    const resultado = await respuesta.json();
+
+    console.log(resultado);
 }
