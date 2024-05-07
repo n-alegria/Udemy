@@ -34,4 +34,19 @@ class ApiController{
         
         echo json_encode(["resultado" => $resultado]);
     }
+
+    public static function eliminar(){
+        // Ingreso por peticion POST
+        if($_SERVER["REQUEST_METHOD"] === "POST"){
+            // Obtengo el ID del arreglo POST
+            $id = $_POST["id"];
+            // Busco la cita con el id
+            $cita = Cita::find($id);
+            // Elimino la cita
+            $cita->eliminar();
+
+            // Redirecciono a la pagina desde donde hice la peticion
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
+        }
+    }
 }

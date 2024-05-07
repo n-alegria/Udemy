@@ -19,9 +19,9 @@
 
     }
     .app{
-        width: 90%;
         margin: 0 auto;
-        padding: 3rem 0;
+        width: 90%;
+        padding: 4rem;
         @include m.tablet{
             overflow: scroll;
         }
@@ -38,5 +38,17 @@
     .boton{
         @include m.boton(v.$negro, v.$blanco);
         margin: 0;
+    }
+}
+
+.barra-servicios{
+    margin-bottom: v.$separacion;
+    @include m.tablet {
+        display: flex;
+        justify-content: space-between;
+        column-gap: 2rem;
+    }
+    .boton{
+        margin: 0 0 1rem 0;
     }
 }

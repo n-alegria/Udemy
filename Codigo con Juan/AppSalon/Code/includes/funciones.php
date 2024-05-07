@@ -26,3 +26,9 @@ function esUltimo($actual, $ultimo){
     }
     return false;
 }
+
+function isAdmin(){
+    if(!isset($_SESSION["admin"])){
+        header("Location: /");
+    }
+}

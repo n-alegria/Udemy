@@ -18,3 +18,15 @@ p{
     font-weight: v.$bold;
     color: v.$azul;
 }
+
+.servicios{
+    @extend .citas;
+
+    .acciones{
+        margin: 0;
+        .boton,
+        .boton-eliminar{
+            margin: 0;
+        }
+    }
+}

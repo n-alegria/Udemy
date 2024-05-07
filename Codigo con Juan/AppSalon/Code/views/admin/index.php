@@ -1,6 +1,7 @@
 <h1 class="nombre-pagina">Panel de administracion</h1>
 <?php 
     include_once(__DIR__ . "/../templates/barra.php");
+    include_once(__DIR__ . "/../templates/alertas.php");
 ?>
 
 <h2>Buscar Citas</h2>
@@ -12,6 +13,13 @@
         </div>
     </form>
 </div>
+
+<?php
+    if(count($citas) === 0){
+        echo "<h2>No hay citas</h2>";
+    }
+
+?>
 
 <div id="citas-admin">
     <ul class="citas">
@@ -45,9 +53,18 @@
 
                 if(esUltimo($actual, $proximo)){ ?>
                     <p class="total">Total: $ <span><?php echo $total; ?></span></p>
+                
+                    <form action="/api/eliminar" method="POST">
+                        <input type="hidden" name="id" value="<?php echo $cita->id; ?>">
+                        <input class="boton-eliminar" type="submit" value="Eliminar">
+                    </form>
                 <?php } ?>
 
             
         <?php } // fin foreach ?>
     </ul>
 </div>
+
+<?php
+    $script = "<script src='build/js/buscador.js'></script>";
+?>
