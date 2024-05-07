@@ -178,4 +178,10 @@ class ActiveRecord {
         $resultado = self::consultarSQL($query);
         return array_shift( $resultado ) ;
     }
+
+    // Consulta plana de sql
+    public static function sql($query) {
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
 }

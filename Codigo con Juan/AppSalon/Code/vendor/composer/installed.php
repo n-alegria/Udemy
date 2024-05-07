@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'lautaro/code',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '422d70e44d75b9659ac5441858e5aa7fa45bb67b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'lautaro/code' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '422d70e44d75b9659ac5441858e5aa7fa45bb67b',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

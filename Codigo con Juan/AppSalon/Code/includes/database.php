@@ -1,7 +1,7 @@
 <?php
 
 try{
-    $db = mysqli_connect('localhost', 'root', 'ARnal2592?', 'appsalon', 3306);
+    $db = mysqli_connect('localhost', 'root', 'root', 'appsalon', 3306);
 
 }catch(Exception $e){
     echo "Error: No se pudo conectar a MySQL.";

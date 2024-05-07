@@ -3,6 +3,7 @@ const pasoInicial = 1
 const pasoFinal = 3;
 
 const cita = {
+    id: "",
     nombre: "",
     fecha: "",
     hora: "",
@@ -27,6 +28,7 @@ function iniciarApp(){
     // Consulta la API en el backend de PHP
     consultarAPI();
 
+    idCliente();
     // Obtiene el nombre del cliente desde el form y lo almacena en la cita
     nombreCliente();
 
@@ -184,6 +186,11 @@ function nombreCliente(){
     // .trim() elimina espacios vacios antes y despues del string
     cita.nombre = nombre.trim();
 }
+function idCliente(){
+    const id = document.querySelector("#id").value;
+    // .trim() elimina espacios vacios antes y despues del string
+    cita.id = id.trim();
+}
 
 function seleccionarFecha(){
     // Seleciono el input fecha
@@ -298,11 +305,9 @@ function mostrarResumen(){
 
     const opciones = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
     const fechaFormateada = fechaUTC.toLocaleDateString("es-AR", opciones);
-    console.log(fechaFormateada);
-
+   
     const fechaCita = document.createElement("P");
     fechaCita.innerHTML = `<span>Fecha:</span> ${fechaFormateada}`;
-
 
     const horaCita = document.createElement("P");
     horaCita.innerHTML = `<span>Hora:</span> ${hora} horas`;
@@ -321,19 +326,49 @@ function mostrarResumen(){
 }
 
 async function reservarCita(){
+    const { id, fecha, hora, servicios } = cita; 
+
+    // Solamente guardo los id de los servicios
+    const idServicios = servicios.map(servicio => servicio.id);
+    console.log(idServicios);
+
     const datos = new FormData();
+    datos.append("usuarioId", id);
+    datos.append("fecha", fecha);
+    datos.append("hora", hora);
+    datos.append("servicios", idServicios);
 
-    datos.append("nombre", "lautaro");
+    try{
+        // Peticion hacia la api
+        const url = "http://localhost:3000/api/citas";
+        const opciones = {
+            method: "POST",
+            body: datos
+        }
 
-    // Peticion hacia la api
-    const url = "http://localhost:3000/api/citas";
-    const opciones = {
-        method: "POST",
-        body: datos
+        const respuesta = await fetch(url, opciones);
+        console.log(respuesta);
+        const resultado = await respuesta.json();
+        console.log(resultado);
+
+        if(resultado.resultado){
+            Swal.fire({
+                icon: "success",
+                title: "Cita Creada",
+                text: "Tu cita fue creada correctamente"
+            }).then( () => {
+                setTimeout( () => {
+                    window.location.reload()
+
+                }, 1000);
+            });
+        }
+    }catch(error){
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Hubo un error al guardar la cita"
+        })
     }
-
-    const respuesta = await fetch(url, opciones);
-    const resultado = await respuesta.json();
-
-    console.log(resultado);
+    
 }
