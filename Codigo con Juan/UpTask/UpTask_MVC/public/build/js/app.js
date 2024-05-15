@@ -1,0 +1,1 @@
+function cambiarTitulo(){const t=document.title;window.addEventListener("blur",(()=>{document.title="¡Regresa!"})),window.addEventListener("focus",(()=>{document.title=t}))}document.addEventListener("DOMContentLoaded",(()=>{cambiarTitulo()}));
